@@ -75,10 +75,50 @@ class _MyHomePageState extends State<MyHomePage> {
     0, 1, 0, 0, 0,
     0, 0, 1, 0, 0,
     0,      0,      0,      1, 0,
-  ]);  ColorFilter protanopia = ColorFilter.matrix(<double>[
+  ]); 
+   ColorFilter protanopia = ColorFilter.matrix(<double>[
     .56667, .43333, 0, 0, 0,
     .55833, .44167, 0, 0, 0,
     0, .24167, .75833, 0, 0,
+    0,      0,      0,      1, 0,
+  ]);  
+   ColorFilter protanomaly = ColorFilter.matrix(<double>[
+    .81667, .18333, 0, 0, 0,
+    .33333, .66667, 0, 0, 0,
+    0, .125, .875, 0, 0,
+    0,      0,      0,      1, 0,
+  ]);   ColorFilter deuteranopia = ColorFilter.matrix(<double>[
+    .625, .375, 0, 0, 0,
+    .7, .3, 0, 0, 0,
+    0, .3, .7, 0, 0,
+    0,      0,      0,      1, 0,
+  ]);   ColorFilter deuteranomaly = ColorFilter.matrix(<double>[
+    .8, .2, 0, 0, 0,
+    .25833, .74167, 0, 0, 0,
+    0, .14167, .85833, 0, 0,
+    0,      0,      0,      1, 0,
+  ]);
+     ColorFilter tritanopia = ColorFilter.matrix(<double>[
+    .95, .5, 0, 0, 0,
+    0, .43333, .56667, 0, 0,
+    0, .475, .525, 0, 0,
+    0,      0,      0,      1, 0,
+  ]);
+       ColorFilter tritanomaly = ColorFilter.matrix(<double>[
+    .96667, .03333, 0, 0, 0,
+    0, .73333, .26667, 0, 0,
+    0, .18333, .81667, 0, 0,
+    0,      0,      0,      1, 0,
+  ]);       ColorFilter achromatopsia = ColorFilter.matrix(<double>[
+    .299, .587, .114, 0, 0,
+    .299, .587, .114, 0, 0,
+    .299, .587, .114, 0, 0,
+    0,      0,      0,      1, 0,
+  ]);
+  ColorFilter achromatomaly = ColorFilter.matrix(<double>[
+    .618, .32, .062, 0, 0,
+    .163, .775, .062, 0, 0,
+    .163, .32, .516, 0, 0,
     0,      0,      0,      1, 0,
   ]);
     final Completer<WebViewController> _controller =
