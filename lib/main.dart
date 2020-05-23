@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
-
+import 'package:webview_flutter/webview_flutter.dart';
+import 'dart:async';
+import 'dart:convert';
 void main() {
   runApp(MyApp());
 }
@@ -62,7 +64,14 @@ class _MyHomePageState extends State<MyHomePage> {
       _counter++;
     });
   }
-
+ ColorFilter greyscale = ColorFilter.matrix(<double>[
+    0.2126, 0.7152, 0.0722, 0, 0,
+    0.2126, 0.7152, 0.0722, 0, 0,
+    0.2126, 0.7152, 0.0722, 0, 0,
+    0,      0,      0,      1, 0,
+  ]);
+    final Completer<WebViewController> _controller =
+      Completer<WebViewController>();
   @override
   Widget build(BuildContext context) {
     // This method is rerun every time setState is called, for instance as done
@@ -80,31 +89,37 @@ class _MyHomePageState extends State<MyHomePage> {
       body: Center(
         // Center is a layout widget. It takes a single child and positions it
         // in the middle of the parent.
-        child: Column(
-          // Column is also a layout widget. It takes a list of children and
-          // arranges them vertically. By default, it sizes itself to fit its
-          // children horizontally, and tries to be as tall as its parent.
-          //
-          // Invoke "debug painting" (press "p" in the console, choose the
-          // "Toggle Debug Paint" action from the Flutter Inspector in Android
-          // Studio, or the "Toggle Debug Paint" command in Visual Studio Code)
-          // to see the wireframe for each widget.
-          //
-          // Column has various properties to control how it sizes itself and
-          // how it positions its children. Here we use mainAxisAlignment to
-          // center the children vertically; the main axis here is the vertical
-          // axis because Columns are vertical (the cross axis would be
-          // horizontal).
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            Text(
-              'You have pushed the button this many times:',
-            ),
-            Text(
-              '$_counter',
-              style: Theme.of(context).textTheme.headline4,
-            ),
-          ],
+        child:
+            ColorFiltered(colorFilter: greyscale,child: Builder(builder: (BuildContext context) {
+        return WebView(
+          initialUrl: 'https://flutter.dev',
+          javascriptMode: JavascriptMode.unrestricted,
+          onWebViewCreated: (WebViewController webViewController) {
+            _controller.complete(webViewController);
+          },          
+
+          // ignore: prefer_collection_literals
+          javascriptChannels: <JavascriptChannel>[
+            _toasterJavascriptChannel(context),
+          ].toSet(),
+          navigationDelegate: (NavigationRequest request) {
+            if (request.url.startsWith('https://www.youtube.com/')) {
+              print('blocking navigation to $request}');
+              return NavigationDecision.prevent;
+            }
+            print('allowing navigation to $request');
+            return NavigationDecision.navigate;
+          },
+          onPageStarted: (String url) {
+            print('Page started loading: $url');
+          },
+          onPageFinished: (String url) {
+            print('Page finished loading: $url');
+          },
+          gestureNavigationEnabled: true,
+        );
+      }),
+        
         ),
       ),
       floatingActionButton: FloatingActionButton(
@@ -115,3 +130,12 @@ class _MyHomePageState extends State<MyHomePage> {
     );
   }
 }
+  JavascriptChannel _toasterJavascriptChannel(BuildContext context) {
+    return JavascriptChannel(
+        name: 'Toaster',
+        onMessageReceived: (JavascriptMessage message) {
+          Scaffold.of(context).showSnackBar(
+            SnackBar(content: Text(message.message)),
+          );
+        });
+  }
