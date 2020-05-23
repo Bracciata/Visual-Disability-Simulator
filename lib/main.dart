@@ -69,6 +69,17 @@ class _MyHomePageState extends State<MyHomePage> {
     0.2126, 0.7152, 0.0722, 0, 0,
     0.2126, 0.7152, 0.0722, 0, 0,
     0,      0,      0,      1, 0,
+  ]); 
+  ColorFilter normal = ColorFilter.matrix(<double>[
+    1, 0, 0, 0, 0,
+    0, 1, 0, 0, 0,
+    0, 0, 1, 0, 0,
+    0,      0,      0,      1, 0,
+  ]);  ColorFilter protanopia = ColorFilter.matrix(<double>[
+    .56667, .43333, 0, 0, 0,
+    .55833, .44167, 0, 0, 0,
+    0, .24167, .75833, 0, 0,
+    0,      0,      0,      1, 0,
   ]);
     final Completer<WebViewController> _controller =
       Completer<WebViewController>();
@@ -90,7 +101,7 @@ class _MyHomePageState extends State<MyHomePage> {
         // Center is a layout widget. It takes a single child and positions it
         // in the middle of the parent.
         child:
-            ColorFiltered(colorFilter: greyscale,child: Builder(builder: (BuildContext context) {
+            ColorFiltered(colorFilter: protanopia,child: Builder(builder: (BuildContext context) {
         return WebView(
           initialUrl: 'https://flutter.dev',
           javascriptMode: JavascriptMode.unrestricted,
