@@ -251,7 +251,7 @@ class _MyHomePageState extends State<MyHomePage>
       1,
       0,
     ]));
-    filters.add(new ColorBlindnessFilters('tritanopia', <double>[
+    filters.add(new ColorBlindnessFilters('tritanopia', <double>[ 
       .95,
       .5,
       0,

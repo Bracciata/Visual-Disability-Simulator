@@ -1,8 +1,5 @@
-import 'dart:io';
-
 import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 
 class CamTab extends StatefulWidget {
   const CamTab({Key key}) : super(key: key);
