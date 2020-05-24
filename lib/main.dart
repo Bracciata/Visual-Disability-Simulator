@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'colorBlindnessFilters.dart';
 import 'tabs/browser.dart';
 import 'tabs/camera.dart';
+
 void main() {
   runApp(MyApp());
 }
@@ -52,15 +53,16 @@ class MyHomePage extends StatefulWidget {
   _MyHomePageState createState() => _MyHomePageState();
 }
 
-class _MyHomePageState extends State<MyHomePage> with SingleTickerProviderStateMixin{
+class _MyHomePageState extends State<MyHomePage>
+    with SingleTickerProviderStateMixin {
   List colorFilters = new List();
   @override
   void initState() {
     super.initState();
     colorFilters = getColorFilters();
-        controller = TabController(length: 2,vsync: this);
-
+    controller = TabController(length: 2, vsync: this);
   }
+
   TabController controller;
 
   @override
@@ -77,14 +79,22 @@ class _MyHomePageState extends State<MyHomePage> with SingleTickerProviderStateM
         // the App.build method, and use it to set our appbar title.
         title: Text(widget.title),
       ),
-        drawer: Drawer(child: ListView(children: [Column(children:[populateColorBlindness(),populateComingSoon()])],)),
-      body: ColorFiltered(colorFilter: colorFilters[group].colorFilter, child:TabBarView(
-        // Center is a layout widget. It takes a single child and positions it
-        // in the middle of the parent.
-        children:[BrowserTab(),CamTab()],
-        controller: controller,
-      ),),
-     bottomNavigationBar: Material(
+      drawer: Drawer(
+          child: ListView(
+        children: [
+          Column(children: [populateColorBlindness(), populateComingSoon()])
+        ],
+      )),
+      body: ColorFiltered(
+        colorFilter: colorFilters[group].colorFilter,
+        child: TabBarView(
+          // Center is a layout widget. It takes a single child and positions it
+          // in the middle of the parent.
+          children: [BrowserTab(), CamTab()],
+          controller: controller,
+        ),
+      ),
+      bottomNavigationBar: Material(
         // set the color of the bottom navigation bar
         color: Colors.blue,
         // set the tab bar as the child of bottom navigation bar
@@ -104,51 +114,34 @@ class _MyHomePageState extends State<MyHomePage> with SingleTickerProviderStateM
       ),
     );
   }
-    double _result = 0.0;
-int group=0;
-  Widget populateColorBlindness(){
+
+  double _result = 0.0;
+  int group = 0;
+  Widget populateColorBlindness() {
     List<Widget> colorFilterWidgets = new List();
-    for(int i=0;i<colorFilters.length;i++){
+    for (int i = 0; i < colorFilters.length; i++) {
       colorFilterWidgets.add(RadioListTile(
-      title: new Text(colorFilters[i].name),
-      value: i,
-      groupValue: group,
-      onChanged: (radioSeleced){
-        setState(() {
-          group=radioSeleced;
-        });
-      }));
+          title: new Text(colorFilters[i].name),
+          value: i,
+          groupValue: group,
+          onChanged: (radioSeleced) {
+            setState(() {
+              group = radioSeleced;
+            });
+          }));
     }
-    return Column(children: colorFilterWidgets,);
+    return ExpansionTile(
+      title: new Text('Color Blindness'),
+      children: colorFilterWidgets,
+    );
   }
 
-Widget populateComingSoon(){
-  return Container();
-}
-List getColorFilters(){
-  List filters =  new List();
-   filters.add(new ColorBlindnessFilters('greyscale', <double>[
-      0.2126,
-      0.7152,
-      0.0722,
-      0,
-      0,
-      0.2126,
-      0.7152,
-      0.0722,
-      0,
-      0,
-      0.2126,
-      0.7152,
-      0.0722,
-      0,
-      0,
-      0,
-      0,
-      0,
-      1,
-      0,
-    ]));
+  Widget populateComingSoon() {
+    return Container();
+  }
+
+  List getColorFilters() {
+    List filters = new List();
     filters.add(new ColorBlindnessFilters('normal', <double>[
       1,
       0,
@@ -163,6 +156,28 @@ List getColorFilters(){
       0,
       0,
       1,
+      0,
+      0,
+      0,
+      0,
+      0,
+      1,
+      0,
+    ]));
+    filters.add(new ColorBlindnessFilters('greyscale', <double>[
+      0.2126,
+      0.7152,
+      0.0722,
+      0,
+      0,
+      0.2126,
+      0.7152,
+      0.0722,
+      0,
+      0,
+      0.2126,
+      0.7152,
+      0.0722,
       0,
       0,
       0,
@@ -348,5 +363,5 @@ List getColorFilters(){
       0,
     ]));
     return filters;
-}
+  }
 }
