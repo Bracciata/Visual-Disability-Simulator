@@ -1,10 +1,6 @@
 import 'package:abled/tabs/browser.dart';
 import 'package:flutter/material.dart';
-import 'package:webview_flutter/webview_flutter.dart';
-import 'dart:async';
-import 'dart:convert';
 import 'colorBlindnessFilters.dart';
-import 'tabs.dart';
 import 'tabs/browser.dart';
 import 'tabs/camera.dart';
 void main() {
