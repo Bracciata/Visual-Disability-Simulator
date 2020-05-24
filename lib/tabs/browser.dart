@@ -4,7 +4,8 @@ import 'dart:async';
 class BrowserTab extends StatelessWidget {
     final Completer<WebViewController> _controller =
       Completer<WebViewController>();
-  @override
+      bool launching = true;
+ @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.red,
@@ -15,7 +16,7 @@ class BrowserTab extends StatelessWidget {
               initialUrl: 'https://flutter.dev',
               javascriptMode: JavascriptMode.unrestricted,
               onWebViewCreated: (WebViewController webViewController) {
-                _controller.complete(webViewController);
+               if(launching){ _controller.complete(webViewController);launching=false;}
               },
 
               // ignore: prefer_collection_literals
