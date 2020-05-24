@@ -1,57 +1,50 @@
-import 'package:flutter/material.dart';
-import 'package:webview_flutter/webview_flutter.dart';
 import 'dart:async';
-import 'package:camera/camera.dart';
 
-class CameraTab extends StatelessWidget {
-    final Completer<WebViewController> _controller =
-      Completer<WebViewController>();
+import 'package:camera/camera.dart';
+import 'package:flutter/material.dart';
+
+class CamTab extends StatefulWidget {
+  @override
+  _CamPreviewState createState() => _CamPreviewState();
+}
+
+class _CamPreviewState extends State<CamTab> {
+  CameraController _controller;
+  Future<void> _initCamFuture;
+
+  @override
+  void initState() {
+    super.initState();
+    _initApp();
+  }
+
+  _initApp() async {
+    final cameras = await availableCameras();
+    final firstCam = cameras.first;
+
+    _controller = CameraController(
+      firstCam,
+      ResolutionPreset.medium,
+    );
+
+    _initCamFuture = _controller.initialize();
+  }
+
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.red,
-      body: Container(
-        child: Center(
-          child:  Builder(builder: (BuildContext context) {
-            return WebView(
-              initialUrl: 'https://flutter.dev',
-              javascriptMode: JavascriptMode.unrestricted,
-              onWebViewCreated: (WebViewController webViewController) {
-                _controller.complete(webViewController);
-              },
-
-              // ignore: prefer_collection_literals
-              javascriptChannels: <JavascriptChannel>[
-                _toasterJavascriptChannel(context),
-              ].toSet(),
-              navigationDelegate: (NavigationRequest request) {
-                if (request.url.startsWith('https://www.youtube.com/')) {
-                  print('blocking navigation to $request}');
-                  return NavigationDecision.prevent;
-                }
-                print('allowing navigation to $request');
-                return NavigationDecision.navigate;
-              },
-              onPageStarted: (String url) {
-                print('Page started loading: $url');
-              },
-              onPageFinished: (String url) {
-                print('Page finished loading: $url');
-              },
-              gestureNavigationEnabled: true,
-            );
-          }),
-        ),
+      body: FutureBuilder<void>(
+        future: _initCamFuture,
+        builder: (context, snapshot) {
+            return CameraPreview(_controller);
+        },
       ),
     );
   }
-}
-JavascriptChannel _toasterJavascriptChannel(BuildContext context) {
-  return JavascriptChannel(
-      name: 'Toaster',
-      onMessageReceived: (JavascriptMessage message) {
-        Scaffold.of(context).showSnackBar(
-          SnackBar(content: Text(message.message)),
-        );
-      });
 }

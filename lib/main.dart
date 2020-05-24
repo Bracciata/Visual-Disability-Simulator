@@ -77,12 +77,12 @@ class _MyHomePageState extends State<MyHomePage> with SingleTickerProviderStateM
         // the App.build method, and use it to set our appbar title.
         title: Text(widget.title),
       ),
-      body: TabBarView(
+      body: ColorFiltered(colorFilter: colorFilters[0].colorFilter, child:TabBarView(
         // Center is a layout widget. It takes a single child and positions it
         // in the middle of the parent.
-        children:[BrowserTab(),CameraTab()],
+        children:[BrowserTab(),CamTab()],
         controller: controller,
-      ),
+      ),),
      bottomNavigationBar: Material(
         // set the color of the bottom navigation bar
         color: Colors.blue,
