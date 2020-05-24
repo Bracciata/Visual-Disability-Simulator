@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 import 'dart:async';
 import 'dart:convert';
+import 'colorBlindnessFilters.dart';
+
 void main() {
   runApp(MyApp());
 }
@@ -52,76 +54,233 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  int _counter = 0;
-
-  void _incrementCounter() {
-    setState(() {
-      // This call to setState tells the Flutter framework that something has
-      // changed in this State, which causes it to rerun the build method below
-      // so that the display can reflect the updated values. If we changed
-      // _counter without calling setState(), then the build method would not be
-      // called again, and so nothing would appear to happen.
-      _counter++;
-    });
+  List colorFilters = new List();
+  @override
+  void initState() {
+    super.initState();
+    colorFilters.add(new ColorBlindnessFilters('greyscale', <double>[
+      0.2126,
+      0.7152,
+      0.0722,
+      0,
+      0,
+      0.2126,
+      0.7152,
+      0.0722,
+      0,
+      0,
+      0.2126,
+      0.7152,
+      0.0722,
+      0,
+      0,
+      0,
+      0,
+      0,
+      1,
+      0,
+    ]));
+    colorFilters.add(new ColorBlindnessFilters('normal', <double>[
+      1,
+      0,
+      0,
+      0,
+      0,
+      0,
+      1,
+      0,
+      0,
+      0,
+      0,
+      0,
+      1,
+      0,
+      0,
+      0,
+      0,
+      0,
+      1,
+      0,
+    ]));
+    colorFilters.add(new ColorBlindnessFilters('protanopia', <double>[
+      .56667,
+      .43333,
+      0,
+      0,
+      0,
+      .55833,
+      .44167,
+      0,
+      0,
+      0,
+      0,
+      .24167,
+      .75833,
+      0,
+      0,
+      0,
+      0,
+      0,
+      1,
+      0,
+    ]));
+    colorFilters.add(new ColorBlindnessFilters('protanomaly', <double>[
+      .81667,
+      .18333,
+      0,
+      0,
+      0,
+      .33333,
+      .66667,
+      0,
+      0,
+      0,
+      0,
+      .125,
+      .875,
+      0,
+      0,
+      0,
+      0,
+      0,
+      1,
+      0,
+    ]));
+    colorFilters.add(new ColorBlindnessFilters('deuteranopia', <double>[
+      .625,
+      .375,
+      0,
+      0,
+      0,
+      .7,
+      .3,
+      0,
+      0,
+      0,
+      0,
+      .3,
+      .7,
+      0,
+      0,
+      0,
+      0,
+      0,
+      1,
+      0,
+    ]));
+    colorFilters.add(new ColorBlindnessFilters('deuteranomaly', <double>[
+      .8,
+      .2,
+      0,
+      0,
+      0,
+      .25833,
+      .74167,
+      0,
+      0,
+      0,
+      0,
+      .14167,
+      .85833,
+      0,
+      0,
+      0,
+      0,
+      0,
+      1,
+      0,
+    ]));
+    colorFilters.add(new ColorBlindnessFilters('tritanopia', <double>[
+      .95,
+      .5,
+      0,
+      0,
+      0,
+      0,
+      .43333,
+      .56667,
+      0,
+      0,
+      0,
+      .475,
+      .525,
+      0,
+      0,
+      0,
+      0,
+      0,
+      1,
+      0,
+    ]));
+    colorFilters.add(new ColorBlindnessFilters('tritanomaly', <double>[
+      .96667,
+      .03333,
+      0,
+      0,
+      0,
+      0,
+      .73333,
+      .26667,
+      0,
+      0,
+      0,
+      .18333,
+      .81667,
+      0,
+      0,
+      0,
+      0,
+      0,
+      1,
+      0,
+    ]));
+    colorFilters.add(new ColorBlindnessFilters('achromatopsia', <double>[
+      .299,
+      .587,
+      .114,
+      0,
+      0,
+      .299,
+      .587,
+      .114,
+      0,
+      0,
+      .299,
+      .587,
+      .114,
+      0,
+      0,
+      0,
+      0,
+      0,
+      1,
+      0,
+    ]));
+    colorFilters.add(new ColorBlindnessFilters('achromatomaly', <double>[
+      .618,
+      .32,
+      .062,
+      0,
+      0,
+      .163,
+      .775,
+      .062,
+      0,
+      0,
+      .163,
+      .32,
+      .516,
+      0,
+      0,
+      0,
+      0,
+      0,
+      1,
+      0,
+    ]));
   }
- ColorFilter greyscale = ColorFilter.matrix(<double>[
-    0.2126, 0.7152, 0.0722, 0, 0,
-    0.2126, 0.7152, 0.0722, 0, 0,
-    0.2126, 0.7152, 0.0722, 0, 0,
-    0,      0,      0,      1, 0,
-  ]); 
-  ColorFilter normal = ColorFilter.matrix(<double>[
-    1, 0, 0, 0, 0,
-    0, 1, 0, 0, 0,
-    0, 0, 1, 0, 0,
-    0,      0,      0,      1, 0,
-  ]); 
-   ColorFilter protanopia = ColorFilter.matrix(<double>[
-    .56667, .43333, 0, 0, 0,
-    .55833, .44167, 0, 0, 0,
-    0, .24167, .75833, 0, 0,
-    0,      0,      0,      1, 0,
-  ]);  
-   ColorFilter protanomaly = ColorFilter.matrix(<double>[
-    .81667, .18333, 0, 0, 0,
-    .33333, .66667, 0, 0, 0,
-    0, .125, .875, 0, 0,
-    0,      0,      0,      1, 0,
-  ]);   ColorFilter deuteranopia = ColorFilter.matrix(<double>[
-    .625, .375, 0, 0, 0,
-    .7, .3, 0, 0, 0,
-    0, .3, .7, 0, 0,
-    0,      0,      0,      1, 0,
-  ]);   ColorFilter deuteranomaly = ColorFilter.matrix(<double>[
-    .8, .2, 0, 0, 0,
-    .25833, .74167, 0, 0, 0,
-    0, .14167, .85833, 0, 0,
-    0,      0,      0,      1, 0,
-  ]);
-     ColorFilter tritanopia = ColorFilter.matrix(<double>[
-    .95, .5, 0, 0, 0,
-    0, .43333, .56667, 0, 0,
-    0, .475, .525, 0, 0,
-    0,      0,      0,      1, 0,
-  ]);
-       ColorFilter tritanomaly = ColorFilter.matrix(<double>[
-    .96667, .03333, 0, 0, 0,
-    0, .73333, .26667, 0, 0,
-    0, .18333, .81667, 0, 0,
-    0,      0,      0,      1, 0,
-  ]);       ColorFilter achromatopsia = ColorFilter.matrix(<double>[
-    .299, .587, .114, 0, 0,
-    .299, .587, .114, 0, 0,
-    .299, .587, .114, 0, 0,
-    0,      0,      0,      1, 0,
-  ]);
-  ColorFilter achromatomaly = ColorFilter.matrix(<double>[
-    .618, .32, .062, 0, 0,
-    .163, .775, .062, 0, 0,
-    .163, .32, .516, 0, 0,
-    0,      0,      0,      1, 0,
-  ]);
-    final Completer<WebViewController> _controller =
+
+  final Completer<WebViewController> _controller =
       Completer<WebViewController>();
   @override
   Widget build(BuildContext context) {
@@ -140,37 +299,37 @@ class _MyHomePageState extends State<MyHomePage> {
       body: Center(
         // Center is a layout widget. It takes a single child and positions it
         // in the middle of the parent.
-        child:
-            ColorFiltered(colorFilter: protanopia,child: Builder(builder: (BuildContext context) {
-        return WebView(
-          initialUrl: 'https://flutter.dev',
-          javascriptMode: JavascriptMode.unrestricted,
-          onWebViewCreated: (WebViewController webViewController) {
-            _controller.complete(webViewController);
-          },          
+        child: ColorFiltered(
+          colorFilter: colorFilters[0],
+          child: Builder(builder: (BuildContext context) {
+            return WebView(
+              initialUrl: 'https://flutter.dev',
+              javascriptMode: JavascriptMode.unrestricted,
+              onWebViewCreated: (WebViewController webViewController) {
+                _controller.complete(webViewController);
+              },
 
-          // ignore: prefer_collection_literals
-          javascriptChannels: <JavascriptChannel>[
-            _toasterJavascriptChannel(context),
-          ].toSet(),
-          navigationDelegate: (NavigationRequest request) {
-            if (request.url.startsWith('https://www.youtube.com/')) {
-              print('blocking navigation to $request}');
-              return NavigationDecision.prevent;
-            }
-            print('allowing navigation to $request');
-            return NavigationDecision.navigate;
-          },
-          onPageStarted: (String url) {
-            print('Page started loading: $url');
-          },
-          onPageFinished: (String url) {
-            print('Page finished loading: $url');
-          },
-          gestureNavigationEnabled: true,
-        );
-      }),
-        
+              // ignore: prefer_collection_literals
+              javascriptChannels: <JavascriptChannel>[
+                _toasterJavascriptChannel(context),
+              ].toSet(),
+              navigationDelegate: (NavigationRequest request) {
+                if (request.url.startsWith('https://www.youtube.com/')) {
+                  print('blocking navigation to $request}');
+                  return NavigationDecision.prevent;
+                }
+                print('allowing navigation to $request');
+                return NavigationDecision.navigate;
+              },
+              onPageStarted: (String url) {
+                print('Page started loading: $url');
+              },
+              onPageFinished: (String url) {
+                print('Page finished loading: $url');
+              },
+              gestureNavigationEnabled: true,
+            );
+          }),
         ),
       ),
       floatingActionButton: FloatingActionButton(
@@ -181,12 +340,13 @@ class _MyHomePageState extends State<MyHomePage> {
     );
   }
 }
-  JavascriptChannel _toasterJavascriptChannel(BuildContext context) {
-    return JavascriptChannel(
-        name: 'Toaster',
-        onMessageReceived: (JavascriptMessage message) {
-          Scaffold.of(context).showSnackBar(
-            SnackBar(content: Text(message.message)),
-          );
-        });
-  }
+
+JavascriptChannel _toasterJavascriptChannel(BuildContext context) {
+  return JavascriptChannel(
+      name: 'Toaster',
+      onMessageReceived: (JavascriptMessage message) {
+        Scaffold.of(context).showSnackBar(
+          SnackBar(content: Text(message.message)),
+        );
+      });
+}
