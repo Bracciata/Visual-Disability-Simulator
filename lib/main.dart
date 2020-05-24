@@ -78,7 +78,7 @@ class _MyHomePageState extends State<MyHomePage> with SingleTickerProviderStateM
         title: Text(widget.title),
       ),
         drawer: Drawer(child: ListView(children: [Column(children:[populateColorBlindness(),populateComingSoon()])],)),
-      body: ColorFiltered(colorFilter: colorFilters[0].colorFilter, child:TabBarView(
+      body: ColorFiltered(colorFilter: colorFilters[group].colorFilter, child:TabBarView(
         // Center is a layout widget. It takes a single child and positions it
         // in the middle of the parent.
         children:[BrowserTab(),CamTab()],
@@ -106,7 +106,6 @@ class _MyHomePageState extends State<MyHomePage> with SingleTickerProviderStateM
   }
     double _result = 0.0;
 int group=0;
-int selectedColorBlind=0;
   Widget populateColorBlindness(){
     List<Widget> colorFilterWidgets = new List();
     for(int i=0;i<colorFilters.length;i++){
@@ -116,7 +115,6 @@ int selectedColorBlind=0;
       groupValue: group,
       onChanged: (radioSeleced){
         setState(() {
-          selectedColorBlind = radioSeleced;
           group=radioSeleced;
         });
       }));
