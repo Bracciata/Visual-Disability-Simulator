@@ -24,7 +24,7 @@ class MyApp extends StatelessWidget {
         // or simply save your changes to "hot reload" in a Flutter IDE).
         // Notice that the counter didn't reset back to zero; the application
         // is not restarted.
-        primarySwatch: Colors.blue,
+        primarySwatch: Colors.pink,
         // This makes the visual density adapt to the platform that you run
         // the app on. For desktop platforms, the controls will be smaller and
         // closer together (more dense) than on mobile platforms.
@@ -96,7 +96,7 @@ class _MyHomePageState extends State<MyHomePage>
       ),
       bottomNavigationBar: Material(
         // set the color of the bottom navigation bar
-        color: Colors.blue,
+        color: Colors.pink,
         // set the tab bar as the child of bottom navigation bar
         child: TabBar(
           tabs: <Tab>[
@@ -115,7 +115,6 @@ class _MyHomePageState extends State<MyHomePage>
     );
   }
 
-  double _result = 0.0;
   int group = 0;
   Widget populateColorBlindness() {
     List<Widget> colorFilterWidgets = new List();
