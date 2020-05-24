@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 import 'dart:async';
+import 'package:camera/camera.dart';
+
 class CameraTab extends StatelessWidget {
     final Completer<WebViewController> _controller =
       Completer<WebViewController>();
