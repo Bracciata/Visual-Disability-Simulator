@@ -77,6 +77,7 @@ class _MyHomePageState extends State<MyHomePage> with SingleTickerProviderStateM
         // the App.build method, and use it to set our appbar title.
         title: Text(widget.title),
       ),
+        drawer: Drawer(child: ListView(children: [Column(children:[populateColorBlindness(),populateComingSoon()])],)),
       body: ColorFiltered(colorFilter: colorFilters[0].colorFilter, child:TabBarView(
         // Center is a layout widget. It takes a single child and positions it
         // in the middle of the parent.
@@ -103,6 +104,28 @@ class _MyHomePageState extends State<MyHomePage> with SingleTickerProviderStateM
       ),
     );
   }
+    double _result = 0.0;
+int group=0;
+int selectedColorBlind=0;
+  Widget populateColorBlindness(){
+    List<Widget> colorFilterWidgets = new List();
+    for(int i=0;i<colorFilters.length;i++){
+      colorFilterWidgets.add(RadioListTile(
+      title: new Text(colorFilters[i].name),
+      value: i,
+      groupValue: group,
+      onChanged: (radioSeleced){
+        setState(() {
+          selectedColorBlind = radioSeleced;
+          group=radioSeleced;
+        });
+      }));
+    }
+    return Column(children: colorFilterWidgets,);
+  }
+
+Widget populateComingSoon(){
+  return Container();
 }
 List getColorFilters(){
   List filters =  new List();
@@ -327,4 +350,5 @@ List getColorFilters(){
       0,
     ]));
     return filters;
+}
 }

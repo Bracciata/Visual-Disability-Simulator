@@ -1,10 +1,10 @@
 import 'package:flutter/cupertino.dart';
 
 class ColorBlindnessFilters{
-  String colorFilterName;
+  String name;
   ColorFilter colorFilter;
-  ColorBlindnessFilters(String name, List colors){
-    colorFilterName=name;
+  ColorBlindnessFilters(String colorFilterName, List colors){
+    name=colorFilterName;
     colorFilter = ColorFilter.matrix(colors);
   }
 }
