@@ -1,9 +1,12 @@
+import 'package:abled/tabs/browser.dart';
 import 'package:flutter/material.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 import 'dart:async';
 import 'dart:convert';
 import 'colorBlindnessFilters.dart';
-
+import 'tabs.dart';
+import 'tabs/browser.dart';
+import 'tabs/camera.dart';
 void main() {
   runApp(MyApp());
 }
@@ -53,12 +56,61 @@ class MyHomePage extends StatefulWidget {
   _MyHomePageState createState() => _MyHomePageState();
 }
 
-class _MyHomePageState extends State<MyHomePage> {
+class _MyHomePageState extends State<MyHomePage> with SingleTickerProviderStateMixin{
   List colorFilters = new List();
   @override
   void initState() {
     super.initState();
-    colorFilters.add(new ColorBlindnessFilters('greyscale', <double>[
+    colorFilters = getColorFilters();
+        controller = TabController(length: 2,vsync: this);
+
+  }
+  TabController controller;
+
+  @override
+  Widget build(BuildContext context) {
+    // This method is rerun every time setState is called, for instance as done
+    // by the _incrementCounter method above.
+    //
+    // The Flutter framework has been optimized to make rerunning build methods
+    // fast, so that you can just rebuild anything that needs updating rather
+    // than having to individually change instances of widgets.
+    return Scaffold(
+      appBar: AppBar(
+        // Here we take the value from the MyHomePage object that was created by
+        // the App.build method, and use it to set our appbar title.
+        title: Text(widget.title),
+      ),
+      body: TabBarView(
+        // Center is a layout widget. It takes a single child and positions it
+        // in the middle of the parent.
+        children:[BrowserTab(),CameraTab()],
+        controller: controller,
+      ),
+     bottomNavigationBar: Material(
+        // set the color of the bottom navigation bar
+        color: Colors.blue,
+        // set the tab bar as the child of bottom navigation bar
+        child: TabBar(
+          tabs: <Tab>[
+            Tab(
+              // set icon to the tab
+              icon: Icon(Icons.web),
+            ),
+            Tab(
+              icon: Icon(Icons.camera),
+            ),
+          ],
+          // setup the controller
+          controller: controller,
+        ),
+      ),
+    );
+  }
+}
+List getColorFilters(){
+  List filters =  new List();
+   filters.add(new ColorBlindnessFilters('greyscale', <double>[
       0.2126,
       0.7152,
       0.0722,
@@ -80,7 +132,7 @@ class _MyHomePageState extends State<MyHomePage> {
       1,
       0,
     ]));
-    colorFilters.add(new ColorBlindnessFilters('normal', <double>[
+    filters.add(new ColorBlindnessFilters('normal', <double>[
       1,
       0,
       0,
@@ -102,7 +154,7 @@ class _MyHomePageState extends State<MyHomePage> {
       1,
       0,
     ]));
-    colorFilters.add(new ColorBlindnessFilters('protanopia', <double>[
+    filters.add(new ColorBlindnessFilters('protanopia', <double>[
       .56667,
       .43333,
       0,
@@ -124,7 +176,7 @@ class _MyHomePageState extends State<MyHomePage> {
       1,
       0,
     ]));
-    colorFilters.add(new ColorBlindnessFilters('protanomaly', <double>[
+    filters.add(new ColorBlindnessFilters('protanomaly', <double>[
       .81667,
       .18333,
       0,
@@ -146,7 +198,7 @@ class _MyHomePageState extends State<MyHomePage> {
       1,
       0,
     ]));
-    colorFilters.add(new ColorBlindnessFilters('deuteranopia', <double>[
+    filters.add(new ColorBlindnessFilters('deuteranopia', <double>[
       .625,
       .375,
       0,
@@ -168,7 +220,7 @@ class _MyHomePageState extends State<MyHomePage> {
       1,
       0,
     ]));
-    colorFilters.add(new ColorBlindnessFilters('deuteranomaly', <double>[
+    filters.add(new ColorBlindnessFilters('deuteranomaly', <double>[
       .8,
       .2,
       0,
@@ -190,7 +242,7 @@ class _MyHomePageState extends State<MyHomePage> {
       1,
       0,
     ]));
-    colorFilters.add(new ColorBlindnessFilters('tritanopia', <double>[
+    filters.add(new ColorBlindnessFilters('tritanopia', <double>[
       .95,
       .5,
       0,
@@ -212,7 +264,7 @@ class _MyHomePageState extends State<MyHomePage> {
       1,
       0,
     ]));
-    colorFilters.add(new ColorBlindnessFilters('tritanomaly', <double>[
+    filters.add(new ColorBlindnessFilters('tritanomaly', <double>[
       .96667,
       .03333,
       0,
@@ -234,7 +286,7 @@ class _MyHomePageState extends State<MyHomePage> {
       1,
       0,
     ]));
-    colorFilters.add(new ColorBlindnessFilters('achromatopsia', <double>[
+    filters.add(new ColorBlindnessFilters('achromatopsia', <double>[
       .299,
       .587,
       .114,
@@ -256,7 +308,7 @@ class _MyHomePageState extends State<MyHomePage> {
       1,
       0,
     ]));
-    colorFilters.add(new ColorBlindnessFilters('achromatomaly', <double>[
+    filters.add(new ColorBlindnessFilters('achromatomaly', <double>[
       .618,
       .32,
       .062,
@@ -278,75 +330,5 @@ class _MyHomePageState extends State<MyHomePage> {
       1,
       0,
     ]));
-  }
-
-  final Completer<WebViewController> _controller =
-      Completer<WebViewController>();
-  @override
-  Widget build(BuildContext context) {
-    // This method is rerun every time setState is called, for instance as done
-    // by the _incrementCounter method above.
-    //
-    // The Flutter framework has been optimized to make rerunning build methods
-    // fast, so that you can just rebuild anything that needs updating rather
-    // than having to individually change instances of widgets.
-    return Scaffold(
-      appBar: AppBar(
-        // Here we take the value from the MyHomePage object that was created by
-        // the App.build method, and use it to set our appbar title.
-        title: Text(widget.title),
-      ),
-      body: Center(
-        // Center is a layout widget. It takes a single child and positions it
-        // in the middle of the parent.
-        child: ColorFiltered(
-          colorFilter: colorFilters[0],
-          child: Builder(builder: (BuildContext context) {
-            return WebView(
-              initialUrl: 'https://flutter.dev',
-              javascriptMode: JavascriptMode.unrestricted,
-              onWebViewCreated: (WebViewController webViewController) {
-                _controller.complete(webViewController);
-              },
-
-              // ignore: prefer_collection_literals
-              javascriptChannels: <JavascriptChannel>[
-                _toasterJavascriptChannel(context),
-              ].toSet(),
-              navigationDelegate: (NavigationRequest request) {
-                if (request.url.startsWith('https://www.youtube.com/')) {
-                  print('blocking navigation to $request}');
-                  return NavigationDecision.prevent;
-                }
-                print('allowing navigation to $request');
-                return NavigationDecision.navigate;
-              },
-              onPageStarted: (String url) {
-                print('Page started loading: $url');
-              },
-              onPageFinished: (String url) {
-                print('Page finished loading: $url');
-              },
-              gestureNavigationEnabled: true,
-            );
-          }),
-        ),
-      ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: _incrementCounter,
-        tooltip: 'Increment',
-        child: Icon(Icons.add),
-      ), // This trailing comma makes auto-formatting nicer for build methods.
-    );
-  }
-}
-
-JavascriptChannel _toasterJavascriptChannel(BuildContext context) {
-  return JavascriptChannel(
-      name: 'Toaster',
-      onMessageReceived: (JavascriptMessage message) {
-        Scaffold.of(context).showSnackBar(
-          SnackBar(content: Text(message.message)),
-        );
-      });
+    return filters;
 }
