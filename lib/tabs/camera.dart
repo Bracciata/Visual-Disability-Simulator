@@ -61,22 +61,17 @@ class CameraScreenState extends State<CamTab>
       backgroundColor: Theme.of(context).backgroundColor,
       key: _scaffoldKey,
       extendBody: true,
-      body: Stack(
-        children: <Widget>[
-          _buildCameraPreview(),
-          Positioned(
-            top: 24.0,
-            left: 12.0,
-            child: IconButton(
-              icon: Icon(
+      floatingActionButton:  FloatingActionButton(
+              child: Icon(
                 Icons.switch_camera,
                 color: Colors.white,
               ),
               onPressed: () {
                 _onCameraSwitch();
-              },
-            ),
-          ),
+              }),
+      body: Stack(
+        children: <Widget>[
+          _buildCameraPreview(),
           
         ],
       ),    );
