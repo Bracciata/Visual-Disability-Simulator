@@ -115,6 +115,7 @@ class _MyHomePageState extends State<MyHomePage>
     );
   }
 
+  List disabilityList = [true]; // Default open color blindness
   int group = 0;
   Widget populateColorBlindness() {
     List<Widget> colorFilterWidgets = new List();
@@ -129,10 +130,39 @@ class _MyHomePageState extends State<MyHomePage>
             });
           }));
     }
-    return ExpansionTile(
-      title: new Text('Color Blindness'),
-      children: colorFilterWidgets,
-    );
+    return ExpansionPanelList(
+        expansionCallback: (int item, bool status) {
+          setState(() {
+            print(item);
+            setState(() {
+              for (var i = 0; i < disabilityList.length; i++) {
+                if (i != item) {
+                  disabilityList[i] = false;
+                } else {
+                  disabilityList[item] = !disabilityList[item];
+                }
+              }
+            });
+          });
+        },
+        children: [
+          ExpansionPanel(
+              canTapOnHeader: true,
+              headerBuilder: (BuildContext context, bool isExpanded) {
+                return Container(
+                  padding: EdgeInsets.all(10),
+                  child: Text(
+                    'Color Blindness',
+                    style: TextStyle(
+                      color: Colors.black54,
+                      fontSize: 18,
+                    ),
+                  ),
+                );
+              },
+              body: Column(children: colorFilterWidgets),
+              isExpanded: disabilityList[0])
+        ]);
   }
 
   Widget populateComingSoon() {
@@ -141,7 +171,7 @@ class _MyHomePageState extends State<MyHomePage>
 
   List getColorFilters() {
     List filters = new List();
-    filters.add(new ColorBlindnessFilters('normal', <double>[
+    filters.add(new ColorBlindnessFilters('Normal Vision', <double>[
       1,
       0,
       0,
@@ -251,7 +281,7 @@ class _MyHomePageState extends State<MyHomePage>
       1,
       0,
     ]));
-    filters.add(new ColorBlindnessFilters('tritanopia', <double>[ 
+    filters.add(new ColorBlindnessFilters('tritanopia', <double>[
       .95,
       .5,
       0,
