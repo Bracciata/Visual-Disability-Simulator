@@ -166,7 +166,16 @@ class _MyHomePageState extends State<MyHomePage>
   }
 
   Widget populateComingSoon() {
-    return Container();
+    return Container(
+      padding: EdgeInsets.all(10),
+      child: Text(
+        'More coming soon!',
+        style: TextStyle(
+          color: Colors.black54,
+          fontSize: 18,
+        ),
+      ),
+    );
   }
 
   List getColorFilters() {
