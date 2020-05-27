@@ -193,7 +193,7 @@ class _MyHomePageState extends State<MyHomePage>
       1,
       0,
     ]));
-    filters.add(new ColorBlindnessFilters('protanopia', <double>[
+    filters.add(new ColorBlindnessFilters('Protanopia', <double>[
       .56667,
       .43333,
       0,
@@ -215,7 +215,7 @@ class _MyHomePageState extends State<MyHomePage>
       1,
       0,
     ]));
-    filters.add(new ColorBlindnessFilters('protanomaly', <double>[
+    filters.add(new ColorBlindnessFilters('Protanomaly', <double>[
       .81667,
       .18333,
       0,
@@ -237,7 +237,7 @@ class _MyHomePageState extends State<MyHomePage>
       1,
       0,
     ]));
-    filters.add(new ColorBlindnessFilters('deuteranopia', <double>[
+    filters.add(new ColorBlindnessFilters('Deuteranopia', <double>[
       .625,
       .375,
       0,
@@ -259,7 +259,7 @@ class _MyHomePageState extends State<MyHomePage>
       1,
       0,
     ]));
-    filters.add(new ColorBlindnessFilters('deuteranomaly', <double>[
+    filters.add(new ColorBlindnessFilters('Deuteranomaly', <double>[
       .8,
       .2,
       0,
@@ -281,7 +281,7 @@ class _MyHomePageState extends State<MyHomePage>
       1,
       0,
     ]));
-    filters.add(new ColorBlindnessFilters('tritanopia', <double>[
+    filters.add(new ColorBlindnessFilters('Tritanopia', <double>[
       .95,
       .5,
       0,
@@ -303,7 +303,7 @@ class _MyHomePageState extends State<MyHomePage>
       1,
       0,
     ]));
-    filters.add(new ColorBlindnessFilters('tritanomaly', <double>[
+    filters.add(new ColorBlindnessFilters('Tritanomaly', <double>[
       .96667,
       .03333,
       0,
@@ -325,7 +325,7 @@ class _MyHomePageState extends State<MyHomePage>
       1,
       0,
     ]));
-    filters.add(new ColorBlindnessFilters('achromatopsia', <double>[
+    filters.add(new ColorBlindnessFilters('Achromatopsia', <double>[
       .299,
       .587,
       .114,
@@ -347,7 +347,7 @@ class _MyHomePageState extends State<MyHomePage>
       1,
       0,
     ]));
-    filters.add(new ColorBlindnessFilters('achromatomaly', <double>[
+    filters.add(new ColorBlindnessFilters('Achromatomaly', <double>[
       .618,
       .32,
       .062,
