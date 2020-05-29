@@ -72,13 +72,6 @@ class BrowserScreenState extends State<BrowserTab>
               },
               onPageFinished: (String url) {
                 print('Page finished loading: $url');
-                if (pastUrls.length == 30) {
-                  print('Removing Last');
-                  pastUrls.removeLast();
-                }
-                if (pastUrls.first != url) {
-                  pastUrls.add(url);
-                }
               },
             );
           }),
@@ -87,68 +80,104 @@ class BrowserScreenState extends State<BrowserTab>
     );
   }
 
+  Future<WebViewController> _webViewControllerFuture;
+
   Widget getFAB() {
-    return new Column(
-      mainAxisSize: MainAxisSize.min,
-      children: new List.generate(icons.length, (int index) {
-        Widget child = new Container(
-          height: 70.0,
-          width: 56.0,
-          alignment: FractionalOffset.topCenter,
-          child: new ScaleTransition(
-            scale: new CurvedAnimation(
-              parent: _aniController,
-              curve: new Interval(0.0, 1.0 - index / icons.length / 2.0,
-                  curve: Curves.easeOut),
-            ),
-            child: new FloatingActionButton(
-              heroTag: null,
-              backgroundColor: backgroundColor,
-              mini: true,
-              child: new Icon(icons[index], color: foregroundColor),
-              onPressed: () {
-                switch (index) {
-                  case 0:
-                    // Go Back
-                    return;
-                  case 1:
-                  // Refresh
-                    return;
-                  default:
-                  // Navigate to a new page
-                    return;
-                }
-              },
-            ),
-          ),
-        );
-        return child;
-      }).toList()
-        ..add(
-          new FloatingActionButton(
-            heroTag: null,
-            child: new AnimatedBuilder(
-              animation: _aniController,
-              builder: (BuildContext context, Widget child) {
-                return new Transform(
-                  transform: new Matrix4.rotationZ(
-                      _aniController.value * 0.5 * math.pi),
-                  alignment: FractionalOffset.center,
-                  child: new Icon(
-                      _aniController.isDismissed ? Icons.share : Icons.close),
-                );
-              },
-            ),
-            onPressed: () {
-              if (_aniController.isDismissed) {
-                _aniController.forward();
-              } else {
-                _aniController.reverse();
-              }
-            },
-          ),
-        ),
-    );
+    _webViewControllerFuture = _controller.future;
+    return FutureBuilder<WebViewController>(
+        future: _webViewControllerFuture,
+        builder:
+            (BuildContext context, AsyncSnapshot<WebViewController> snapshot) {
+          final bool webViewReady =
+              snapshot.connectionState == ConnectionState.done;
+          final WebViewController controller = snapshot.data;
+          return Column(
+            mainAxisSize: MainAxisSize.min,
+            children: new List.generate(icons.length, (int index) {
+              Widget child = new Container(
+                height: 70.0,
+                width: 56.0,
+                alignment: FractionalOffset.topCenter,
+                child: new ScaleTransition(
+                  scale: new CurvedAnimation(
+                    parent: _aniController,
+                    curve: new Interval(0.0, 1.0 - index / icons.length / 2.0,
+                        curve: Curves.easeOut),
+                  ),
+                  child: new FloatingActionButton(
+                    heroTag: null,
+                    backgroundColor: backgroundColor,
+                    mini: true,
+                    child: new Icon(icons[index], color: foregroundColor),
+                    onPressed: () {
+                      switch (index) {
+                        case 0:
+                          // Go Back
+                          debugPrint("BACK");
+                          print(webViewReady);
+                          !webViewReady
+                              ? null
+                              : () async {
+                                  print("OTHERWISE");
+                                  if (await controller.canGoBack()) {
+                                    print('CAN BACK?');
+                                    await controller.goBack();
+                                  } else {
+                                    debugPrint('NOBACK');
+                                    Scaffold.of(context).showSnackBar(
+                                      const SnackBar(
+                                          content:
+                                              Text("No back history item")),
+                                    );
+                                    return;
+                                  }
+                                };
+                          return;
+                        case 1:
+                          // Refresh
+                          !webViewReady
+                  ? null
+                  : () {
+                      controller.reload();
+                    },
+                          return;
+                        case 2:
+                          // Navigate to a new page
+                          return;
+                      }
+                    },
+                  ),
+                ),
+              );
+              return child;
+            }).toList()
+              ..add(
+                new FloatingActionButton(
+                  heroTag: null,
+                  child: new AnimatedBuilder(
+                    animation: _aniController,
+                    builder: (BuildContext context, Widget child) {
+                      return new Transform(
+                        transform: new Matrix4.rotationZ(
+                            _aniController.value * 0.5 * math.pi),
+                        alignment: FractionalOffset.center,
+                        child: new Icon(_aniController.isDismissed
+                            ? Icons.share
+                            : Icons.close),
+                      );
+                    },
+                  ),
+                  onPressed: () {
+                    if (_aniController.isDismissed) {
+                      _aniController.forward();
+                    } else {
+                      _aniController.reverse();
+                    }
+                  },
+                ),
+              ),
+          );
+        });
   }
 }
 
