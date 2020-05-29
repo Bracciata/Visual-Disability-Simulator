@@ -91,88 +91,81 @@ class BrowserScreenState extends State<BrowserTab>
           final bool webViewReady =
               snapshot.connectionState == ConnectionState.done;
           final WebViewController controller = snapshot.data;
-          return Column(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                new Container(
-                    height: 70.0,
-                    width: 56.0,
-                    alignment: FractionalOffset.topCenter,
-                    child: new ScaleTransition(
-                        scale: new CurvedAnimation(
-                          parent: _aniController,
-                          curve: new Interval(0.0, 1.0 - 0 / icons.length / 2.0,
-                              curve: Curves.easeOut),
-                        ),
-                        child: new FloatingActionButton(
-                            heroTag: null,
-                            backgroundColor: backgroundColor,
-                            mini: true,
-                            child: new Icon(icons[0], color: foregroundColor),
-                            onPressed: !webViewReady
-                                ? null
-                                : () async {
-                                    print("OTHERWISE");
-                                    if (await controller.canGoBack()) {
-                                      print('CAN BACK?');
-                                      await controller.goBack();
-                                    } else {
-                                      debugPrint('NOBACK');
-                                      Scaffold.of(context).showSnackBar(
-                                        const SnackBar(
-                                            content:
-                                                Text("No back history item")),
-                                      );
-                                      return;
-                                    }
-                                  }))),
-                new Container(
-                    height: 70.0,
-                    width: 56.0,
-                    alignment: FractionalOffset.topCenter,
-                    child: new ScaleTransition(
-                        scale: new CurvedAnimation(
-                          parent: _aniController,
-                          curve: new Interval(0.0, 1.0 - 1 / icons.length / 2.0,
-                              curve: Curves.easeOut),
-                        ),
-                        child: new FloatingActionButton(
-                          heroTag: null,
-                          backgroundColor: backgroundColor,
-                          mini: true,
-                          child: new Icon(icons[1], color: foregroundColor),
-                          onPressed: !webViewReady
-                              ? null
-                              : () {
-                                  controller.reload();
-                                },
-                        ))),
-                // Refresh
-
-                  new FloatingActionButton(
-                    heroTag: null,
-                    child: new AnimatedBuilder(
-                      animation: _aniController,
-                      builder: (BuildContext context, Widget child) {
-                        return new Transform(
-                          transform: new Matrix4.rotationZ(
-                              _aniController.value * 0.5 * math.pi),
-                          alignment: FractionalOffset.center,
-                          child: new Icon(_aniController.isDismissed
-                              ? Icons.share
-                              : Icons.close),
-                        );
-                      },
+          return Column(mainAxisSize: MainAxisSize.min, children: [
+            new Container(
+                height: 70.0,
+                width: 56.0,
+                alignment: FractionalOffset.topCenter,
+                child: new ScaleTransition(
+                    scale: new CurvedAnimation(
+                      parent: _aniController,
+                      curve: new Interval(0.0, 1.0 - 0 / icons.length / 2.0,
+                          curve: Curves.easeOut),
                     ),
-                    onPressed: () {
-                      if (_aniController.isDismissed) {
-                        _aniController.forward();
-                      } else {
-                        _aniController.reverse();
-                      }
-                    },
-                  ),
-              ]);
+                    child: new FloatingActionButton(
+                        heroTag: null,
+                        backgroundColor: backgroundColor,
+                        mini: true,
+                        child: new Icon(icons[0], color: foregroundColor),
+                        onPressed: !webViewReady
+                            ? null
+                            : () async {
+                                if (await controller.canGoBack()) {
+                                  await controller.goBack();
+                                } else {
+                                  Scaffold.of(context).showSnackBar(
+                                    const SnackBar(
+                                        content: Text("No back history item")),
+                                  );
+                                  return;
+                                }
+                              }))),
+            new Container(
+                height: 70.0,
+                width: 56.0,
+                alignment: FractionalOffset.topCenter,
+                child: new ScaleTransition(
+                    scale: new CurvedAnimation(
+                      parent: _aniController,
+                      curve: new Interval(0.0, 1.0 - 1 / icons.length / 2.0,
+                          curve: Curves.easeOut),
+                    ),
+                    child: new FloatingActionButton(
+                      heroTag: null,
+                      backgroundColor: backgroundColor,
+                      mini: true,
+                      child: new Icon(icons[1], color: foregroundColor),
+                      onPressed: !webViewReady
+                          ? null
+                          : () {
+                              controller.reload();
+                            },
+                    ))),
+            // Refresh
+
+            new FloatingActionButton(
+              heroTag: null,
+              child: new AnimatedBuilder(
+                animation: _aniController,
+                builder: (BuildContext context, Widget child) {
+                  return new Transform(
+                    transform: new Matrix4.rotationZ(
+                        _aniController.value * 0.5 * math.pi),
+                    alignment: FractionalOffset.center,
+                    child: new Icon(
+                        _aniController.isDismissed ? Icons.language : Icons.close),
+                  );
+                },
+              ),
+              onPressed: () {
+                if (_aniController.isDismissed) {
+                  _aniController.forward();
+                } else {
+                  _aniController.reverse();
+                }
+              },
+            ),
+          ]);
         });
   }
 }
