@@ -215,6 +215,7 @@ class BrowserScreenState extends State<BrowserTab>
                     onPressed: () async {
                       // submit
                       await controller.loadUrl(urlTextController.text);
+                      lastUrl=urlTextController.text;
                                           },
                   )),
             ],
