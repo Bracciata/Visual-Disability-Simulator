@@ -71,7 +71,7 @@ class BrowserScreenState extends State<BrowserTab>
                 print('Page started loading: $url');
               },
               onPageFinished: (String url) {
-                lastUrl=url;
+                lastUrl = url;
                 print('Page finished loading: $url');
               },
             );
@@ -214,13 +214,25 @@ class BrowserScreenState extends State<BrowserTab>
                     child: Text('Submit'),
                     onPressed: () async {
                       // submit
-                      await controller.loadUrl(urlTextController.text);
-                      lastUrl=urlTextController.text;
-                                          },
+                      String url = urlTextController.text;
+                      url = formatURL(url);
+                      await controller.loadUrl(url);
+                      lastUrl =
+                          urlTextController.text; // Use original user input
+                    },
                   )),
             ],
           );
         });
+  }
+
+  String formatURL(String url) {
+    // TODO: add to this
+    if (url.startsWith("https://") || url.startsWith("http://")) {
+      return url;
+    } else {
+      return "http://" + url;
+    }
   }
 }
 
