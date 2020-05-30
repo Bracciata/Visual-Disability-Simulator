@@ -39,7 +39,6 @@ class BrowserScreenState extends State<BrowserTab>
     backgroundColor = Theme.of(context).cardColor;
     foregroundColor = Theme.of(context).accentColor;
     return Scaffold(
-      backgroundColor: Colors.red,
       floatingActionButton: getFAB(),
       floatingActionButtonLocation: FloatingActionButtonLocation.startFloat,
       body: Container(
