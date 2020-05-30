@@ -22,7 +22,7 @@ class BrowserScreenState extends State<BrowserTab>
     Icons.refresh,
     Icons.navigate_next
   ];
-
+  String lastUrl = "https://google.com";
   @override
   void initState() {
     _aniController = new AnimationController(
@@ -46,7 +46,7 @@ class BrowserScreenState extends State<BrowserTab>
         child: Center(
           child: Builder(builder: (BuildContext context) {
             return WebView(
-              initialUrl: 'https://flutter.dev',
+              initialUrl: lastUrl,
               javascriptMode: JavascriptMode.unrestricted,
               onWebViewCreated: (WebViewController webViewController) {
                 if (launching) {
@@ -71,6 +71,7 @@ class BrowserScreenState extends State<BrowserTab>
                 print('Page started loading: $url');
               },
               onPageFinished: (String url) {
+                lastUrl=url;
                 print('Page finished loading: $url');
               },
             );
@@ -141,6 +142,27 @@ class BrowserScreenState extends State<BrowserTab>
                               controller.reload();
                             },
                     ))),
+            new Container(
+                height: 70.0,
+                width: 56.0,
+                alignment: FractionalOffset.topCenter,
+                child: new ScaleTransition(
+                    scale: new CurvedAnimation(
+                      parent: _aniController,
+                      curve: new Interval(0.0, 1.0 - 1 / icons.length / 2.0,
+                          curve: Curves.easeOut),
+                    ),
+                    child: new FloatingActionButton(
+                      heroTag: null,
+                      backgroundColor: backgroundColor,
+                      mini: true,
+                      child: new Icon(icons[2], color: foregroundColor),
+                      onPressed: !webViewReady
+                          ? null
+                          : () {
+                              _navigateElsewhere(snapshot.data);
+                            },
+                    ))),
             // Refresh
 
             new FloatingActionButton(
@@ -152,8 +174,9 @@ class BrowserScreenState extends State<BrowserTab>
                     transform: new Matrix4.rotationZ(
                         _aniController.value * 0.5 * math.pi),
                     alignment: FractionalOffset.center,
-                    child: new Icon(
-                        _aniController.isDismissed ? Icons.language : Icons.close),
+                    child: new Icon(_aniController.isDismissed
+                        ? Icons.language
+                        : Icons.close),
                   );
                 },
               ),
@@ -166,6 +189,36 @@ class BrowserScreenState extends State<BrowserTab>
               },
             ),
           ]);
+        });
+  }
+
+  TextEditingController urlTextController = new TextEditingController();
+  Future<void> _navigateElsewhere(WebViewController controller) async {
+    await showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return SimpleDialog(
+            title: const Text('Select assignment'),
+            children: <Widget>[
+              SimpleDialogOption(
+                  onPressed: () {},
+                  child: TextFormField(
+                    controller: urlTextController,
+                    decoration: InputDecoration(labelText: 'Enter the website'),
+                  )),
+              SimpleDialogOption(
+                  onPressed: () {
+                    // DO NOTHING
+                  },
+                  child: RaisedButton(
+                    child: Text('Submit'),
+                    onPressed: () async {
+                      // submit
+                      await controller.loadUrl(urlTextController.text);
+                                          },
+                  )),
+            ],
+          );
         });
   }
 }
