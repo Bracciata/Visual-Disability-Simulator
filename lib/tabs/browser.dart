@@ -226,11 +226,11 @@ class BrowserScreenState extends State<BrowserTab>
   }
 
   String formatURL(String url) {
-    // TODO: add to this
+    // TODO: Add to this.
     if (url.startsWith("https://") || url.startsWith("http://")) {
       return url;
     } else {
-      return "http://" + url;
+      return "https://" + url;
     }
   }
 }
