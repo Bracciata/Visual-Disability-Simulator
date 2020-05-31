@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'colorBlindnessFilters.dart';
 import 'tabs/browser.dart';
 import 'tabs/camera.dart';
+import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 
 void main() {
   runApp(MyApp());
@@ -92,6 +93,7 @@ class _MyHomePageState extends State<MyHomePage>
       colorFilterWidgets.add(RadioListTile(
           title: new Text(colorFilters[i].name),
           value: i,
+          secondary: IconButton(icon: Icon(MdiIcons.helpCircleOutline), onPressed: ()=>{print('presed '+i.toString())}),
           groupValue: group,
           onChanged: (radioSeleced) {
             setState(() {
