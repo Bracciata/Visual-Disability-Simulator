@@ -218,6 +218,7 @@ class BrowserScreenState extends State<BrowserTab>
                         try {
                           await controller.loadUrl(url);
                           error = "";
+                          Navigator.of(context).pop();
                         } catch (ex) {
                           setState(() {
                             error = "URL not valid";
