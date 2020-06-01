@@ -135,7 +135,7 @@ class _MyHomePageState extends State<MyHomePage>
               isExpanded: disabilityList[0])
         ]);
   }
-
+  
   Widget populateComingSoon() {
     return Container(
       padding: EdgeInsets.all(10),
@@ -151,7 +151,7 @@ class _MyHomePageState extends State<MyHomePage>
 
   List getColorFilters() {
     List filters = new List();
-    filters.add(new ColorBlindnessFilters('Normal Vision', <double>[
+    filters.add(new ColorBlindnessFilters('Normal Vision', 'Normal Vision refers to not having any form of color blindness.', <double>[
       1,
       0,
       0,
@@ -173,7 +173,7 @@ class _MyHomePageState extends State<MyHomePage>
       1,
       0,
     ]));
-    filters.add(new ColorBlindnessFilters('Protanopia', <double>[
+    filters.add(new ColorBlindnessFilters('Red-Green Color Blindness','Red-Green Color Blindness One refers to Protonopia. Protonopia affects 1.01% of males and .02% of females. Protonopia means the Long wavelength cones(L-Cones) are missing.', <double>[
       .56667,
       .43333,
       0,
@@ -195,7 +195,7 @@ class _MyHomePageState extends State<MyHomePage>
       1,
       0,
     ]));
-    filters.add(new ColorBlindnessFilters('Protanomaly', <double>[
+    filters.add(new ColorBlindnessFilters('Red-Green Color Blindness 2','Red-Green Color Blindness Two refers to Protanomaly. Protanomaly affects 1.08% of males and .03% of females. Protanomaly means the Long wavelength cones(L-Cones) are defective but not missing..', <double>[
       .81667,
       .18333,
       0,
