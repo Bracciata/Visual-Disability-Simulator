@@ -46,7 +46,6 @@ class _MyHomePageState extends State<MyHomePage>
 
   @override
   Widget build(BuildContext context) {
-
     return Scaffold(
       appBar: AppBar(
         title: Text(widget.title),
@@ -93,7 +92,9 @@ class _MyHomePageState extends State<MyHomePage>
       colorFilterWidgets.add(RadioListTile(
           title: new Text(colorFilters[i].name),
           value: i,
-          secondary: IconButton(icon: Icon(MdiIcons.helpCircleOutline), onPressed: ()=>{print('presed '+i.toString())}),
+          secondary: IconButton(
+              icon: Icon(MdiIcons.helpCircleOutline),
+              onPressed: () => {print('presed ' + i.toString())}),
           groupValue: group,
           onChanged: (radioSeleced) {
             setState(() {
@@ -135,7 +136,7 @@ class _MyHomePageState extends State<MyHomePage>
               isExpanded: disabilityList[0])
         ]);
   }
-  
+
   Widget populateComingSoon() {
     return Container(
       padding: EdgeInsets.all(10),
@@ -151,117 +152,133 @@ class _MyHomePageState extends State<MyHomePage>
 
   List getColorFilters() {
     List filters = new List();
-    filters.add(new ColorBlindnessFilters('Normal Vision', 'Normal Vision refers to not having any form of color blindness.', <double>[
-      1,
-      0,
-      0,
-      0,
-      0,
-      0,
-      1,
-      0,
-      0,
-      0,
-      0,
-      0,
-      1,
-      0,
-      0,
-      0,
-      0,
-      0,
-      1,
-      0,
-    ]));
-    filters.add(new ColorBlindnessFilters('Red-Green Color Blindness','Red-Green Color Blindness One refers to Protonopia. Protonopia affects 1.01% of males and .02% of females. Protonopia means the Long wavelength cones(L-Cones) are missing.', <double>[
-      .56667,
-      .43333,
-      0,
-      0,
-      0,
-      .55833,
-      .44167,
-      0,
-      0,
-      0,
-      0,
-      .24167,
-      .75833,
-      0,
-      0,
-      0,
-      0,
-      0,
-      1,
-      0,
-    ]));
-    filters.add(new ColorBlindnessFilters('Red-Green Color Blindness 2','Red-Green Color Blindness Two refers to Protanomaly. Protanomaly affects 1.08% of males and .03% of females. Protanomaly means the Long wavelength cones(L-Cones) are defective but not missing..', <double>[
-      .81667,
-      .18333,
-      0,
-      0,
-      0,
-      .33333,
-      .66667,
-      0,
-      0,
-      0,
-      0,
-      .125,
-      .875,
-      0,
-      0,
-      0,
-      0,
-      0,
-      1,
-      0,
-    ]));
-    filters.add(new ColorBlindnessFilters('Deuteranopia', <double>[
-      .625,
-      .375,
-      0,
-      0,
-      0,
-      .7,
-      .3,
-      0,
-      0,
-      0,
-      0,
-      .3,
-      .7,
-      0,
-      0,
-      0,
-      0,
-      0,
-      1,
-      0,
-    ]));
-    filters.add(new ColorBlindnessFilters('Deuteranomaly', <double>[
-      .8,
-      .2,
-      0,
-      0,
-      0,
-      .25833,
-      .74167,
-      0,
-      0,
-      0,
-      0,
-      .14167,
-      .85833,
-      0,
-      0,
-      0,
-      0,
-      0,
-      1,
-      0,
-    ]));
-    filters.add(new ColorBlindnessFilters('Tritanopia', <double>[
+    filters.add(new ColorBlindnessFilters(
+        'Normal Vision',
+        'Normal Vision refers to not having any form of color blindness.',
+        <double>[
+          1,
+          0,
+          0,
+          0,
+          0,
+          0,
+          1,
+          0,
+          0,
+          0,
+          0,
+          0,
+          1,
+          0,
+          0,
+          0,
+          0,
+          0,
+          1,
+          0,
+        ]));
+    filters.add(new ColorBlindnessFilters(
+        'Protonopia(RG)',
+        'Protonopia is a form of Red-Green Color Blindness. Protonopia affects 1.01% of males and .02% of females. Protonopia means the Long wavelength cones(L-Cones) are missing.',
+        <double>[
+          .56667,
+          .43333,
+          0,
+          0,
+          0,
+          .55833,
+          .44167,
+          0,
+          0,
+          0,
+          0,
+          .24167,
+          .75833,
+          0,
+          0,
+          0,
+          0,
+          0,
+          1,
+          0,
+        ]));
+    filters.add(new ColorBlindnessFilters(
+        'Protanomaly(RG)',
+        'Protanomaly is a form of Red-Green Color Blindness. Protanomaly affects 1.08% of males and .03% of females. Protanomaly means the Long wavelength cones(L-Cones) are defective but not missing.',
+        <double>[
+          .81667,
+          .18333,
+          0,
+          0,
+          0,
+          .33333,
+          .66667,
+          0,
+          0,
+          0,
+          0,
+          .125,
+          .875,
+          0,
+          0,
+          0,
+          0,
+          0,
+          1,
+          0,
+        ]));
+    filters.add(new ColorBlindnessFilters(
+        'Deuteranopia(RG)',
+        'Deuteranopia is a form of Red-Green Color Blindness often called simply green-blind. Deuteranopia affects 1.0% of males and .1% of females. Deuteranopia means the medium wavelength cones(green) are missing.',
+        <double>[
+          .625,
+          .375,
+          0,
+          0,
+          0,
+          .7,
+          .3,
+          0,
+          0,
+          0,
+          0,
+          .3,
+          .7,
+          0,
+          0,
+          0,
+          0,
+          0,
+          1,
+          0,
+        ]));
+    filters.add(new ColorBlindnessFilters(
+        'Deuteranomaly',
+        'Deuteranomaly is a form of Red-Green Color Blindness often called simply green-weak. Deuteranomaly affects 5.0% of males and .35% of females. Deuteranomaly means the medium wavelength cones(green) are defiecent.',
+        <double>[
+          .8,
+          .2,
+          0,
+          0,
+          0,
+          .25833,
+          .74167,
+          0,
+          0,
+          0,
+          0,
+          .14167,
+          .85833,
+          0,
+          0,
+          0,
+          0,
+          0,
+          1,
+          0,
+        ]));
+    filters.add(new ColorBlindnessFilters('Tritanopia(BY)', 
+    'Tritanopia is a form of Blue-Yellow Color Blindness. Tritanopia varys greatly on numbers affected and it is much less than red-green forms of color blindness. Tritanopia means the short wavelength cones are missing.', <double>[
       .95,
       .5,
       0,
@@ -283,7 +300,9 @@ class _MyHomePageState extends State<MyHomePage>
       1,
       0,
     ]));
-    filters.add(new ColorBlindnessFilters('Tritanomaly', <double>[
+    filters.add(new ColorBlindnessFilters('Tritanomaly(BY)',
+        'Tritanomaly is a form of Blue-Yellow Color Blindness. Tritanomaly varys greatly on numbers affected and it is much less than red-green forms of color blindness. Tritanomaly means the short wavelength cones are deficient.',
+ <double>[
       .96667,
       .03333,
       0,
@@ -305,7 +324,10 @@ class _MyHomePageState extends State<MyHomePage>
       1,
       0,
     ]));
-    filters.add(new ColorBlindnessFilters('Achromatopsia', <double>[
+    filters.add(new ColorBlindnessFilters('Achromatopsia(All)', 
+            'Achromatopsia is a form of Total Color Blindness. Achromatopsia affects .003% people born worldwide.',
+
+    ,<double>[
       .299,
       .587,
       .114,
@@ -327,7 +349,7 @@ class _MyHomePageState extends State<MyHomePage>
       1,
       0,
     ]));
-    filters.add(new ColorBlindnessFilters('Achromatomaly', <double>[
+    filters.add(new ColorBlindnessFilters('Achromatomaly(All)','Achromatomaly is a form of Total Color Blindness.',  <double>[
       .618,
       .32,
       .062,
