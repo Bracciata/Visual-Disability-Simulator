@@ -94,7 +94,7 @@ class _MyHomePageState extends State<MyHomePage>
           value: i,
           secondary: IconButton(
               icon: Icon(MdiIcons.helpCircleOutline),
-              onPressed: () => {print('presed ' + i.toString())}),
+              onPressed: () => {_showMore(colorFilters[i].name, colorFilters[i].about)}),
           groupValue: group,
           onChanged: (radioSeleced) {
             setState(() {
@@ -148,6 +148,25 @@ class _MyHomePageState extends State<MyHomePage>
         ),
       ),
     );
+  }
+
+  Future _showMore(var header, var body) async {
+      await showDialog(
+        context: context,
+        child: new SimpleDialog(
+          title: new Text(header),
+          children: <Widget>[
+            new SimpleDialogOption(child:Text(body)),
+            new SimpleDialogOption(
+              child: new RaisedButton(child:Text("Okay"),
+              onPressed: (){
+                Navigator.pop(context);
+              },
+            ),
+            ),
+          ],
+        )
+      );
   }
 
   List getColorFilters() {

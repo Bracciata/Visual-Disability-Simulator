@@ -201,17 +201,17 @@ class BrowserScreenState extends State<BrowserTab>
         context: context,
         builder: (BuildContext context) {
           return SimpleDialog(
-            title: const Text('Select assignment'),
+            title: const Text('Navigate Elsewhere'),
             children: <Widget>[
               SimpleDialogOption(
                   onPressed: () {},
                   child: TextFormField(
                     controller: urlTextController,
-                    decoration: InputDecoration(labelText: 'Enter the website'),
+                    decoration: InputDecoration(labelText: 'Enter the URL'),
                   )),
               SimpleDialogOption(
                   onPressed: null,
-                  child: Column(children: [
+                  child:
                     RaisedButton(
                       child: Text('Submit'),
                       onPressed: () async {
@@ -231,8 +231,8 @@ class BrowserScreenState extends State<BrowserTab>
                             urlTextController.text; // Use original user input
                       },
                     ),
-                    error != '' ? new Text(error) : Container()
-                  ])),
+                   ),
+                    error != '' ? SimpleDialogOption(child:  new Text(error)) : Container()
             ],
           );
         });
