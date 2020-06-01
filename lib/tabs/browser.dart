@@ -191,6 +191,7 @@ class BrowserScreenState extends State<BrowserTab>
         });
   }
 
+  String error = '';
   TextEditingController urlTextController = new TextEditingController();
   Future<void> _navigateElsewhere(WebViewController controller) async {
     await showDialog(
@@ -206,20 +207,28 @@ class BrowserScreenState extends State<BrowserTab>
                     decoration: InputDecoration(labelText: 'Enter the website'),
                   )),
               SimpleDialogOption(
-                  onPressed: () {
-                    // DO NOTHING
-                  },
-                  child: RaisedButton(
-                    child: Text('Submit'),
-                    onPressed: () async {
-                      // submit
-                      String url = urlTextController.text;
-                      url = formatURL(url);
-                      await controller.loadUrl(url);
-                      lastUrl =
-                          urlTextController.text; // Use original user input
-                    },
-                  )),
+                  onPressed: null,
+                  child: Column(children: [
+                    RaisedButton(
+                      child: Text('Submit'),
+                      onPressed: () async {
+                        // submit
+                        String url = urlTextController.text;
+                        url = formatURL(url);
+                        try {
+                          await controller.loadUrl(url);
+                          error = "";
+                        } catch (ex) {
+                          setState(() {
+                            error = "URL not valid";
+                          });
+                        }
+                        lastUrl =
+                            urlTextController.text; // Use original user input
+                      },
+                    ),
+                    error != '' ? new Text(error) : Container()
+                  ])),
             ],
           );
         });
