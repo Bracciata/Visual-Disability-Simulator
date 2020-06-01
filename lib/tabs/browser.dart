@@ -72,6 +72,9 @@ class BrowserScreenState extends State<BrowserTab>
               onPageFinished: (String url) {
                 lastUrl = url;
                 print('Page finished loading: $url');
+                setState(() {
+                  
+                });
               },
             );
           }),
