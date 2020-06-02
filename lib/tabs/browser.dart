@@ -72,9 +72,7 @@ class BrowserScreenState extends State<BrowserTab>
               onPageFinished: (String url) {
                 lastUrl = url;
                 print('Page finished loading: $url');
-                setState(() {
-                  
-                });
+                setState(() {});
               },
             );
           }),
@@ -106,6 +104,8 @@ class BrowserScreenState extends State<BrowserTab>
                           curve: Curves.easeOut),
                     ),
                     child: new FloatingActionButton(
+                        tooltip: 'Go Back a Page',
+
                         heroTag: null,
                         backgroundColor: backgroundColor,
                         mini: true,
@@ -134,6 +134,7 @@ class BrowserScreenState extends State<BrowserTab>
                           curve: Curves.easeOut),
                     ),
                     child: new FloatingActionButton(
+                      tooltip: 'Refresh the Active Page',
                       heroTag: null,
                       backgroundColor: backgroundColor,
                       mini: true,
@@ -155,6 +156,7 @@ class BrowserScreenState extends State<BrowserTab>
                           curve: Curves.easeOut),
                     ),
                     child: new FloatingActionButton(
+                      tooltip: 'Navigate Elsewhere',
                       heroTag: null,
                       backgroundColor: backgroundColor,
                       mini: true,
@@ -165,31 +167,30 @@ class BrowserScreenState extends State<BrowserTab>
                               _navigateElsewhere(snapshot.data);
                             },
                     ))),
-            // Refresh
-
             new FloatingActionButton(
-              heroTag: null,
-              child: new AnimatedBuilder(
-                animation: _aniController,
-                builder: (BuildContext context, Widget child) {
-                  return new Transform(
-                    transform: new Matrix4.rotationZ(
-                        _aniController.value * 0.5 * math.pi),
-                    alignment: FractionalOffset.center,
-                    child: new Icon(_aniController.isDismissed
-                        ? Icons.language
-                        : Icons.close),
-                  );
+                tooltip: 'Web Navigation',
+                heroTag: null,
+                child: new AnimatedBuilder(
+                  animation: _aniController,
+                  builder: (BuildContext context, Widget child) {
+                    return new Transform(
+                      transform: new Matrix4.rotationZ(
+                          _aniController.value * 0.5 * math.pi),
+                      alignment: FractionalOffset.center,
+                      child: new Icon(_aniController.isDismissed
+                          ? Icons.language
+                          : Icons.close),
+                    );
+                  },
+                ),
+                onPressed: () {
+                  if (_aniController.isDismissed) {
+                    _aniController.forward();
+                  } else {
+                    _aniController.reverse();
+                  }
                 },
-              ),
-              onPressed: () {
-                if (_aniController.isDismissed) {
-                  _aniController.forward();
-                } else {
-                  _aniController.reverse();
-                }
-              },
-            ),
+            )
           ]);
         });
   }
@@ -210,29 +211,29 @@ class BrowserScreenState extends State<BrowserTab>
                     decoration: InputDecoration(labelText: 'Enter the URL'),
                   )),
               SimpleDialogOption(
-                  onPressed: null,
-                  child:
-                    RaisedButton(
-                      child: Text('Submit'),
-                      onPressed: () async {
-                        // submit
-                        String url = urlTextController.text;
-                        url = formatURL(url);
-                        try {
-                          await controller.loadUrl(url);
-                          error = "";
-                          Navigator.of(context).pop();
-                        } catch (ex) {
-                          setState(() {
-                            error = "URL not valid";
-                          });
-                        }
-                        lastUrl =
-                            urlTextController.text; // Use original user input
-                      },
-                    ),
-                   ),
-                    error != '' ? SimpleDialogOption(child:  new Text(error)) : Container()
+                onPressed: null,
+                child: RaisedButton(
+                  child: Text('Submit'),
+                  onPressed: () async {
+                    // submit
+                    String url = urlTextController.text;
+                    url = formatURL(url);
+                    try {
+                      await controller.loadUrl(url);
+                      error = "";
+                      Navigator.of(context).pop();
+                    } catch (ex) {
+                      setState(() {
+                        error = "URL not valid";
+                      });
+                    }
+                    lastUrl = urlTextController.text; // Use original user input
+                  },
+                ),
+              ),
+              error != ''
+                  ? SimpleDialogOption(child: new Text(error))
+                  : Container()
             ],
           );
         });

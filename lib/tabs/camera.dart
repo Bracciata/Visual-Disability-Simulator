@@ -61,20 +61,21 @@ class CameraScreenState extends State<CamTab>
       backgroundColor: Theme.of(context).backgroundColor,
       key: _scaffoldKey,
       extendBody: true,
-      floatingActionButton:  FloatingActionButton(
-              child: Icon(
-                Icons.switch_camera,
-                color: Colors.white,
-              ),
-              onPressed: () {
-                _onCameraSwitch();
-              }),
+      floatingActionButton: FloatingActionButton(
+          tooltip: 'Change Camera Direction',
+          child: Icon(
+            Icons.switch_camera,
+            color: Colors.white,
+          ),
+          onPressed: () {
+            _onCameraSwitch();
+          }),
       body: Stack(
         children: <Widget>[
           _buildCameraPreview(),
-          
         ],
-      ),    );
+      ),
+    );
   }
 
   Widget _buildCameraPreview() {
@@ -93,8 +94,6 @@ class CameraScreenState extends State<CamTab>
       ),
     );
   }
-
-
 
   Future<void> _onCameraSwitch() async {
     final CameraDescription cameraDescription =
