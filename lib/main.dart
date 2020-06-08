@@ -13,12 +13,12 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Abled',
+      title: 'Disability Simulator',
       theme: ThemeData(
         primarySwatch: Colors.pink,
         visualDensity: VisualDensity.adaptivePlatformDensity,
       ),
-      home: MyHomePage(title: 'Abled'),
+      home: MyHomePage(title: 'Disability Simulator'),
     );
   }
 }
@@ -94,7 +94,8 @@ class _MyHomePageState extends State<MyHomePage>
           value: i,
           secondary: IconButton(
               icon: Icon(MdiIcons.helpCircleOutline),
-              onPressed: () => {_showMore(colorFilters[i].name, colorFilters[i].about)}),
+              onPressed: () =>
+                  {_showMore(colorFilters[i].name, colorFilters[i].about)}),
           groupValue: group,
           onChanged: (radioSeleced) {
             setState(() {
@@ -151,22 +152,22 @@ class _MyHomePageState extends State<MyHomePage>
   }
 
   Future _showMore(var header, var body) async {
-      await showDialog(
+    await showDialog(
         context: context,
         child: new SimpleDialog(
           title: new Text(header),
           children: <Widget>[
-            new SimpleDialogOption(child:Text(body)),
+            new SimpleDialogOption(child: Text(body)),
             new SimpleDialogOption(
-              child: new RaisedButton(child:Text("Okay"),
-              onPressed: (){
-                Navigator.pop(context);
-              },
-            ),
+              child: new RaisedButton(
+                child: Text("Okay"),
+                onPressed: () {
+                  Navigator.pop(context);
+                },
+              ),
             ),
           ],
-        )
-      );
+        ));
   }
 
   List getColorFilters() {
