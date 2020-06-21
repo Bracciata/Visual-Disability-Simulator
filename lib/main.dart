@@ -56,13 +56,14 @@ class _MyHomePageState extends State<MyHomePage>
           Column(children: [populateColorBlindness(), populateComingSoon()])
         ],
       )),
-      body: ColorFiltered(
-        colorFilter: colorFilters[group].colorFilter,
-        child: TabBarView(
-          children: [BrowserTab(), CamTab()],
-          controller: controller,
-        ),
-      ),
+      body: Stack(children: [
+        ColorFiltered(
+            colorFilter: colorFilters[group].colorFilter,
+            child: TabBarView(
+              children: [BrowserTab(), CamTab()],
+              controller: controller,
+            )),
+      ]),
       bottomNavigationBar: Material(
         // Set the color of the bottom navigation bar
         color: Colors.pink,
