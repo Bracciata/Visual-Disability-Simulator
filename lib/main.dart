@@ -154,20 +154,20 @@ class _MyHomePageState extends State<MyHomePage>
   Future _showMore(var header, var body) async {
     await showDialog(
         context: context,
-        child: new SimpleDialog(
-          title: new Text(header),
-          children: <Widget>[
-            new SimpleDialogOption(child: Text(body)),
-            new SimpleDialogOption(
-              child: new RaisedButton(
-                child: Text("Okay"),
-                onPressed: () {
-                  Navigator.pop(context);
-                },
-              ),
-            ),
-          ],
-        ));
+        builder: (BuildContext context) => new SimpleDialog(
+              title: new Text(header),
+              children: <Widget>[
+                new SimpleDialogOption(child: Text(body)),
+                new SimpleDialogOption(
+                  child: new ElevatedButton(
+                    child: Text("Okay"),
+                    onPressed: () {
+                      Navigator.pop(context);
+                    },
+                  ),
+                ),
+              ],
+            ));
   }
 
   List getColorFilters() {
